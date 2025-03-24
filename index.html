@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Cuentas de Cobro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: auto;
+            text-align: center;
+        }
+        input, textarea, button {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .preview {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            max-width: 800px;
+            margin: auto;
+            text-align: center;
+        }
+        .preview h3 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        .preview-content {
+            text-align: left;
+            font-size: 18px;
+            line-height: 1.6;
+            border-top: 2px solid #28a745;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .preview-content p {
+            margin: 5px 0;
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo-container img {
+            max-width: 150px;
+            height: auto;
+        }
+        .payment-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f1f1f1;
+            border-radius: 10px;
+            font-size: 16px;
+            text-align: left;
+        }
+        .payment-info .column {
+            width: 48%;
+        }
+        .payment-info img {
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            .preview, .preview * {
+                visibility: visible;
+            }
+            .preview {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+            .total-container {
+                text-align: CENTER;
+                font-size: 30px;
+                font-weight: bold;
+                margin-top: 10px;
+            }
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="angelescentinela.jpg" alt="Logo de la empresa">
+        </div>
+        
+        <h2>Generar Cuenta de Cobro</h2>
+        <strong><label>Fecha de Pago:</label></strong>
+        <input type="date" id="fecha_pago">
+        
+        <strong><label>Recibido de:</label></strong>
+        <input type="text" id="recibido_de">
+        
+        <strong><label>Cédula:</label></strong>
+        <input type="text" id="cedula">
+        
+        <strong><label>La Suma de:</label></strong>
+        <input type="text" id="suma" oninput="formatearCampo(this)">
+        
+        <strong><label>Por Concepto de:</label></strong>
+        <input type="text" value="SERVICIOS DE ENFERMERÍA A PERSONA MAYOR" readonly>
+        
+        <strong><label>Observaciones:</label></strong>
+        <textarea id="observaciones"></textarea>
+        
+        <strong><label>Total a Pagar:</label></strong>
+        <input type="text" id="total" oninput="formatearCampo(this)">
+        
+        <button onclick="generarCuenta()">Vista Preliminar</button>
+    </div>
+    
+    <div class="preview" id="preview">
+        <div class="logo-container">
+            <img src="angelescentinela.jpg" alt="Logo de la empresa">
+        </div>
+        <h3>Cuenta de Cobro</h3>
+
+        <div class="preview-content">
+            <p><strong>Fecha de Pago:</strong> <span id="prev_fecha"></span></p>
+            <p><strong>Recibido de:</strong> <span id="prev_recibido"> </span> <strong>Con cédula:</strong> <span id="prev_cedula"></span></p> 
+            <p><strong>La Suma de:</strong> <span id="prev_suma"></span></p>
+            <p><strong>Por Concepto de:</strong> SERVICIOS DE ENFERMERÍA A PERSONA MAYOR</p>
+            <p><strong>Observaciones:</strong> <span id="prev_observaciones"></span></p>
+            
+            
+        </div>
+        <div class="total-container">
+            <p><strong>Total a Pagar:</strong> <span id="prev_total"></span></p>
+        </div>
+
+        <div class="payment-info">
+            <div class="column">
+                <p><strong>Forma de pago:</strong> Contado</p>
+                <p><strong>Elaboró:</strong> Claudia Alejandra Gutierrez</p>
+                <p><strong>Pago por transferencia:</strong></p>
+                <p><img src="daviplata.svg" alt="Daviplata" width="45"> 3212185787</p>
+                <p><img src="logo-nequi-nuevo-1.svg" alt="Nequi" width="45"> 3122298492</p>
+                <p><img src="Bancolombia_S.A._logo.svg.png" alt="Bancolombia" width="70"> Ahorros: 316-577892-19</p>
+            </div>
+            <div class="column">
+                <p><img src="QR.jpg" alt="QR" width="80"></p>
+                <p><strong>CF - Depósito electrónico:</strong> No. 1700-1862-8915</p>
+                <p><strong>Titular:</strong> Claudia Alejandra Gutiérrez Restrepo</p>
+                <p><strong>C.C:</strong> 43664842</p>
+                <p><strong>WhatsApp:</strong> 321 218 5787</p>
+            </div>
+        </div>
+
+        <button onclick="imprimirCuenta()">Imprimir</button>
+    </div>
+    
+    <script>
+        function generarCuenta() {
+            document.getElementById('prev_fecha').innerText = document.getElementById('fecha_pago').value;
+            document.getElementById('prev_recibido').innerText = document.getElementById('recibido_de').value;
+            document.getElementById('prev_cedula').innerText = document.getElementById('cedula').value;
+            document.getElementById('prev_suma').innerText = document.getElementById('suma').value;
+            document.getElementById('prev_observaciones').innerText = document.getElementById('observaciones').value;
+            document.getElementById('prev_total').innerText = document.getElementById('total').value;
+            
+            document.getElementById('preview').style.display = 'block';
+        }
+
+        function imprimirCuenta() {
+            window.print();
+        }
+        
+
+    
+            function formatearCampo(input) {
+                // Remueve cualquier carácter que no sea número
+                let valor = input.value.replace(/\D/g, ""); 
+                
+                // Convierte el valor a número y lo formatea con puntos
+                if (valor !== "") {
+                    valor = parseInt(valor).toLocaleString("es-CO");
+                }
+                
+                // Asigna el valor formateado al campo
+                input.value = valor ? `$ ${valor}` : "";
+            }
+        
+
+            // Función para establecer la fecha actual en el campo de fecha
+    function setFechaActual() {
+        let hoy = new Date();
+        let fechaFormateada = hoy.toISOString().split('T')[0]; // Obtiene el formato YYYY-MM-DD
+        document.getElementById("fecha_pago").value = fechaFormateada;
+    }
+
+    // Ejecutar la función al cargar la página
+    window.onload = setFechaActual;
+        
+    </script>
+</body>
+</html>
